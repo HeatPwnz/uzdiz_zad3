@@ -28,7 +28,7 @@ import org.foi.uzdiz.hbradvic_zad3.helpers.CertificateHelper;
  *
  * @author hEAT
  */
-public class DiversClub{
+public class DiversClub {
 
     private static DiversClub instance = null;
     private List<Diver> divers;
@@ -110,7 +110,7 @@ public class DiversClub{
             for (Diver diver : divers) {
                 specTEMP = new ArrayList<>();
                 for (DiverSpecs diverName : diverSpecs) {
-                    if(diver.getName().equals(diverName.getDiver())){
+                    if (diver.getName().equals(diverName.getDiver())) {
                         specTEMP.add(diverName.spec);
                     }
                 }
@@ -122,143 +122,96 @@ public class DiversClub{
             for (Diver diver : divers) {
                 System.out.println(diver.getName() + " / " + diver.getSpecs().size());
             }
-
         } catch (FileNotFoundException ex) {
             throw new IllegalStateException("File that you requested doesn't exist.");
         } catch (IOException ex) {
             Logger.getLogger(DiversClub.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-        return new ArrayList<>();
+
+        return divers;
     }
 
-    public void fillDiveDates(String divesDat) {
-        try {
-            BufferedReader br = new BufferedReader(new FileReader(new File(divesDat)));
-            String line;
-            while ((line = br.readLine()) != null) {
-                if (line.matches(datesRegex)) {
-                    String[] info = line.split(";");
-                    if (Integer.parseInt(info[3]) > 1) {
-                        DateFormat dateFormat = new SimpleDateFormat("yyyy.mm.dd");
-                        Date date = dateFormat.parse(info[0]);
-                        LocalTime time = LocalTime.parse(info[1]);
-                        DiveDate diveDates = new DiveDate(date, time, Integer.parseInt(info[2]), Integer.parseInt(info[3]));
-                        diveDatesList.add(diveDates);
-                    }
-                }
-            }
-            System.out.println("DiveDates added to the DiveDates list: " + diveDatesList.size());
-
-        } catch (FileNotFoundException ex) {
-            throw new IllegalStateException("File that you requested doesn't exist.");
-        } catch (IOException | ParseException ex) {
-            Logger.getLogger(DiversClub.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-    
-    public List<Diver> filterDivers(List<Diver> divers, int depth, int temp, int night, int recording){
+    public List<Diver> filterDivers(List<Diver> divers, int depth, int temp, int night, int recording) {
         List<Diver> filteredByDepth = new ArrayList<>();
-        for(Diver diver : divers){
-            if((certificateHelper.returnMaxDive(diver.getLevel())+10)>=depth){
+        List<Diver> filteredListHelper = new ArrayList<>();
+
+        System.out.println("pocetak " + divers.size());
+        //add divers that are able to dive to specified depth
+        for (Diver diver : divers) {
+            if ((certificateHelper.returnMaxDive(diver.getLevel()) + 10) >= depth) {
                 filteredByDepth.add(diver);
             }
         }
-        List<Diver> filteredByDiveType = new ArrayList<>();
-        return filteredByDepth;
-    }
 
-    public HashMap<DiveDate, ArrayList<Diver>> sortDiversInDates(List<Diver> divers, List<DiveDate> dates, long seed) throws ParseException {
-        HashMap<DiveDate, ArrayList<Diver>> diverGroup = new HashMap<>();
-        if (!divers.isEmpty() && !dates.isEmpty()) {
-            ArrayList<Diver> dajvers = null;
-            DiveDate prethodni = new DiveDate(new Date(), LocalTime.MIN, 0, 0);
-            for (DiveDate date : dates) {
-                if (!prethodni.getDiveDate().equals(date.getDiveDate())) {
-                    dajvers = new ArrayList<>();
-                    long seeed = System.nanoTime();
-                    Random rnd = new Random(seeed);
-                    for (int i = 0; i < date.getNoDivers(); i++) {
-                        int index = rnd.nextInt(date.getNoDivers());
-                        Diver diver = divers.get(index);
-                        if (dajvers.contains(diver)) {
-                            i--;
-                            continue;
-                        }
-
-                        List<DiveDate> dejts = new ArrayList<>();
-                        dejts = diver.getDivesHistory();
-                        dejts.add(date);
-                        diver.setDivesHistory(dejts);
-
-                        dajvers.add(diver);
-                        System.out.println(date.getDiveDate().toString() + " - " + date.getDiveTime() + " - " + diver.getName());
-                    }
-                    prethodni = date;
-                    diverGroup.put(date, dajvers);
-
-                    //notify Agency Observers
-                    diveDateTEMP = date;
-                    diversTEMP = dajvers;
-
-                    System.out.println("Grupica: " + dajvers.size());
-                } else {
-                    if (prethodni.getNoDivers() < date.getNoDivers()) {
-                        int i = date.getNoDivers() - prethodni.getNoDivers();
-                        Random rnd = new Random(seed);
-                        for (int j = 0; j < i; j++) {
-                            int index = rnd.nextInt(date.getNoDivers());
-                            Diver diver = divers.get(index);
-                            if (dajvers.contains(diver)) {
-                                j--;
-                                continue;
-                            }
-
-                            List<DiveDate> dejts = new ArrayList<>();
-                            dejts = diver.getDivesHistory();
-                            dejts.add(date);
-                            diver.setDivesHistory(dejts);
-
-                            dajvers.add(diver);
-                            System.out.println(date.getDiveDate().toString() + " - " + date.getDiveTime() + " - " + diver.getName());
-                        }
-                        prethodni = date;
-                        diverGroup.put(date, dajvers);
-
-                        //notify Agency Observers
-                        diveDateTEMP = date;
-                        diversTEMP = dajvers;
-
-                        System.out.println("+Grupica: " + dajvers.size());
-                    } else if (prethodni.getNoDivers() > date.getNoDivers()) {
-                        int i = prethodni.getNoDivers() - date.getNoDivers();
-                        for (int j = 0; j < i; j++) {
-                            dajvers.remove(prethodni.getNoDivers() - i);
-                        }
-                        prethodni = date;
-                        diverGroup.put(date, dajvers);
-
-                        //notify Agency Observers
-                        diveDateTEMP = date;
-                        diversTEMP = dajvers;
-
-                        System.out.println("-Grupica: " + dajvers.size());
-                    } else {
-                        diverGroup.put(date, dajvers);
-
-                        //notify Agency Observers
-                        diveDateTEMP = date;
-                        diversTEMP = dajvers;
-
-                        System.out.println("=Grupica: " + dajvers.size());
+        System.out.println("nakon dubine " + filteredByDepth.size());
+        //add divers that are able to dive in cold waters
+        for (Diver diver : filteredByDepth) {
+            if (diver.getSpecs().size() == 3) {
+                filteredListHelper.add(diver);
+                continue;
+            }
+            if (temp <= 15) {
+                for (String cert : diver.getSpecs()) {
+                    if (cert.equals("Suho odijelo")) {
+                        filteredListHelper.add(diver);
+                        break;
                     }
                 }
+            } else if (temp > 15) {
+                filteredListHelper.add(diver);
             }
-            System.out.println("Uspjesno popunjeno " + diverGroup.size() + " termina.");
-            return diverGroup;
-        } else {
-            System.out.println("Jedna od listi nije popunjena.");
-            return diverGroup;
         }
+
+        System.out.println("nakon temp " + filteredListHelper.size());
+        //add divers that are able to dive by night
+        filteredByDepth.clear();
+        for (Diver diver : filteredListHelper) {
+            if (diver.getSpecs().size() == 3) {
+                filteredByDepth.add(diver);
+                continue;
+            }
+            if (night == 1) {
+                for (String cert : diver.getSpecs()) {
+                    if (cert.equals("Noćno ronjenje")) {
+                        filteredByDepth.add(diver);
+                        break;
+                    }
+                }
+            } else if (night < 1) {
+                filteredByDepth.add(diver);
+            }
+        }
+
+        System.out.println("nakon nocne " + filteredByDepth.size());
+        //count divers with photography spec
+        int noPhotographDivers = 0;
+        List<Diver> photographDivers = new ArrayList<>();
+        for (Diver diver : filteredByDepth) {
+            for (String cert : diver.getSpecs()) {
+                if (cert.equals("Podvodni fotograf")) {
+                    photographDivers.add(diver);
+                    noPhotographDivers++;
+                }
+            }
+        }
+
+        //filteredListHelper.clear();
+        if (recording != 0) {
+            if (noPhotographDivers >= recording) {
+                System.out.println("nocna ekipa " + photographDivers.size());
+                for (Diver diver : photographDivers) {
+                    System.out.println(diver.getName());
+                }
+                return photographDivers;
+            } else {
+                System.out.println("There is too few or too many divers for Photography Diving Session");
+                //return null;
+            }
+        }
+        System.out.println("dnevna ekipa " + filteredByDepth.size());
+        for (Diver diver : filteredByDepth) {
+            System.out.println(diver.getName());
+        }
+        return filteredByDepth;
     }
 }
