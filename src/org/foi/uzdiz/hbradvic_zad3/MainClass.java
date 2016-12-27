@@ -10,6 +10,7 @@ import java.util.List;
 import org.foi.uzdiz.hbradvic_zad3.model.DiveAgency;
 import org.foi.uzdiz.hbradvic_zad3.model.Diver;
 import org.foi.uzdiz.hbradvic_zad3.model.DiversClub;
+import org.foi.uzdiz.hbradvic_zad3.view.window.WindowProps;
 
 /**
  *
@@ -25,6 +26,7 @@ public class MainClass {
             int rows = Integer.parseInt(args[0]);
             int cols = Integer.parseInt(args[1]);
             int rowsTank = Integer.parseInt(args[2]);
+            WindowProps windowProps = new WindowProps(rows, cols, rowsTank);
             
             String diversDat = args[3];
             String specDat = args[4];
@@ -88,34 +90,6 @@ public class MainClass {
             return false;
         }
         return true;
-    }
-    
-    private static List<String> checkAlgorithms(List<String> algorithms) {
-        List<String> realOnes = new ArrayList<>();
-        //add only correct algorithms
-        for (String alg : algorithms) {
-            if (alg.equals("RandomAlgorithm") || alg.equals("SameLevelAlgorithm") || alg.equals("MaxDepthAlgorithm")) {
-                realOnes.add(alg);
-            }
-        }
-        //check if there is duplicate algorithms
-        int counter = 0;
-        for (String check : realOnes) {
-            for (String a : realOnes) {
-                if (check.equals(a)) {
-                    counter++;
-                }
-            }
-            if (counter > 1) {
-                break;
-            }
-            counter = 0;
-        }
-        if (counter > 1) {
-            System.out.println("bezi van ima duplikata");
-            realOnes.clear();
-        }
-        return realOnes;
     }
 
     private static List<DiveAgency> fillDivingAgencies() {
