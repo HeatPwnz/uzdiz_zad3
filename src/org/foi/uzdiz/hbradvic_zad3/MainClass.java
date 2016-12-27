@@ -5,18 +5,11 @@
  */
 package org.foi.uzdiz.hbradvic_zad3;
 
-import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import org.foi.uzdiz.hbradvic_zad3.algorithm.AlgorithmFactory;
 import org.foi.uzdiz.hbradvic_zad3.model.DiveAgency;
-import org.foi.uzdiz.hbradvic_zad3.model.DiveDate;
 import org.foi.uzdiz.hbradvic_zad3.model.Diver;
 import org.foi.uzdiz.hbradvic_zad3.model.DiversClub;
-import org.foi.uzdiz.hbradvic_zad3.model.Federation;
 
 /**
  *
@@ -34,7 +27,6 @@ public class MainClass {
             int rowsTank = Integer.parseInt(args[2]);
             
             String diversDat = args[3];
-            //String divesDat = args[4];
             String specDat = args[4];
             String equipDat = args[5];
 
@@ -42,21 +34,12 @@ public class MainClass {
             int temp = Integer.parseInt(args[7]);
             int night = Integer.parseInt(args[8]);
             int recording = Integer.parseInt(args[9]);
+
+            List<DiveAgency> diveAgencies = fillDivingAgencies();
+
+            List<Diver> divers = DiversClub.getInstance().fillDiversList(diversDat, specDat, diveAgencies);
+            List<Diver> filteredDivers = DiversClub.getInstance().filterDivers(divers, depth, temp, night, recording);
             
-            //String resultsDat = args[6];
-
-            List<DiveAgency> diveAgencies = new ArrayList<>();
-            diveAgencies = fillDivingAgencies();
-            Federation federation = new Federation("HRS");
-
-            HashMap<DiveDate, ArrayList<Diver>> diversInDates = new HashMap<>();
-            List<Diver> divers = new ArrayList<>();
-            //List<DiveDate> diveDatesList = new ArrayList<>();
-
-            DiversClub.getInstance().fillDiversList(diversDat, specDat, diveAgencies, federation);
-            //DiversClub.getInstance().fillDiveDates(divesDat);
-
-            divers = DiversClub.getInstance().getDivers();
             /* diveDatesList = DiversClub.getInstance().getDiveDatesList();
                 try {
                     diversInDates = DiversClub.getInstance().sortDiversInDates(divers, diveDatesList, seed);
@@ -64,8 +47,8 @@ public class MainClass {
                     Logger.getLogger(MainClass.class.getName()).log(Level.SEVERE, null, ex);
                 }*/
 
-            AlgorithmFactory algorithmFactory = new AlgorithmFactory();
-            //algorithmFactory.createAlgorithm(divers, diveDatesList, diversInDates, seed, realAlgorithms, resultsDat, diveAgencies);
+            //AlgorithmFactory algorithmFactory = new AlgorithmFactory();
+            //algorithmFactory.createAlgorithm(divers, "MaxDivesAlgorithm", diveAgencies);
 
         }else{
             System.out.println("Params you entered are wrong, fixerinho needed.");

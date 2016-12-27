@@ -12,7 +12,7 @@ import java.util.List;
  *
  * @author hEAT
  */
-public class DiveAgency implements ObserverInterface{
+public class DiveAgency{
     
     protected String name;
     protected List<String> certificates = new ArrayList<String>(){{
@@ -59,17 +59,4 @@ public class DiveAgency implements ObserverInterface{
     public void setAgencyDivers(List<Diver> agencyDivers) {
         this.agencyDivers = agencyDivers;
     }
-
-    @Override
-    public void update(DiveDate diveDate, List<Diver> diversList) {
-        System.out.println("-NOTIFING- " + name);
-        for(Diver diver: diversList){
-            if(diver.getAgency().equals(this)){
-                 System.out.println(diver.getName() + " | " + diver.getLevel() + " | " + diveDate.getDiveDate() + " | " + diveDate.getMaxDepth());
-                 agencyDivers.add(diver);
-            }
-        }
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-    
 }

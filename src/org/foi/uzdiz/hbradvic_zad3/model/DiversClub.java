@@ -22,12 +22,13 @@ import java.util.Map;
 import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.foi.uzdiz.hbradvic_zad3.helpers.CertificateHelper;
 
 /**
  *
  * @author hEAT
  */
-public class DiversClub implements SubjectInterface {
+public class DiversClub{
 
     private static DiversClub instance = null;
     private List<Diver> divers;
@@ -36,7 +37,7 @@ public class DiversClub implements SubjectInterface {
     private List<Diver> diversTEMP;
     private Map<String, String> diverSpec;
     private DiveDate diveDateTEMP;
-    private Federation federation;
+    private CertificateHelper certificateHelper;
     private static final String diversRegex = "^([a-zA-Z]{1,});(CMAS|SSI|NAUI|BSAC);((R[0-5])|(I[1-6]));((19|20)\\d{2}$)";
     private static final String specialtyRegex = "^([\\p{L}\\s]+{1,});([\\p{L}\\s]{1,})";
     private static final String equipementRegex = "";
@@ -48,6 +49,7 @@ public class DiversClub implements SubjectInterface {
         diveAgencies = new ArrayList<>();
         diversTEMP = new ArrayList<>();
         diverSpec = new HashMap<>();
+        certificateHelper = new CertificateHelper();
     }
 
     public static DiversClub getInstance() {
@@ -73,9 +75,8 @@ public class DiversClub implements SubjectInterface {
         this.diveDatesList = diveDatesList;
     }
 
-    public void fillDiversList(String diversDat, String specDat, List<DiveAgency> diveAgencies, Federation federation) {
+    public List<Diver> fillDiversList(String diversDat, String specDat, List<DiveAgency> diveAgencies) {
         this.diveAgencies = diveAgencies;
-        this.federation = federation;
         try {
             BufferedReader br = new BufferedReader(new FileReader(new File(diversDat)));
             String line;
@@ -127,6 +128,8 @@ public class DiversClub implements SubjectInterface {
         } catch (IOException ex) {
             Logger.getLogger(DiversClub.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
+        return new ArrayList<>();
     }
 
     public void fillDiveDates(String divesDat) {
@@ -152,6 +155,17 @@ public class DiversClub implements SubjectInterface {
         } catch (IOException | ParseException ex) {
             Logger.getLogger(DiversClub.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+    
+    public List<Diver> filterDivers(List<Diver> divers, int depth, int temp, int night, int recording){
+        List<Diver> filteredByDepth = new ArrayList<>();
+        for(Diver diver : divers){
+            if((certificateHelper.returnMaxDive(diver.getLevel())+10)>=depth){
+                filteredByDepth.add(diver);
+            }
+        }
+        List<Diver> filteredByDiveType = new ArrayList<>();
+        return filteredByDepth;
     }
 
     public HashMap<DiveDate, ArrayList<Diver>> sortDiversInDates(List<Diver> divers, List<DiveDate> dates, long seed) throws ParseException {
@@ -186,7 +200,6 @@ public class DiversClub implements SubjectInterface {
                     //notify Agency Observers
                     diveDateTEMP = date;
                     diversTEMP = dajvers;
-                    notifyObservers();
 
                     System.out.println("Grupica: " + dajvers.size());
                 } else {
@@ -215,7 +228,6 @@ public class DiversClub implements SubjectInterface {
                         //notify Agency Observers
                         diveDateTEMP = date;
                         diversTEMP = dajvers;
-                        notifyObservers();
 
                         System.out.println("+Grupica: " + dajvers.size());
                     } else if (prethodni.getNoDivers() > date.getNoDivers()) {
@@ -229,7 +241,6 @@ public class DiversClub implements SubjectInterface {
                         //notify Agency Observers
                         diveDateTEMP = date;
                         diversTEMP = dajvers;
-                        notifyObservers();
 
                         System.out.println("-Grupica: " + dajvers.size());
                     } else {
@@ -238,7 +249,6 @@ public class DiversClub implements SubjectInterface {
                         //notify Agency Observers
                         diveDateTEMP = date;
                         diversTEMP = dajvers;
-                        notifyObservers();
 
                         System.out.println("=Grupica: " + dajvers.size());
                     }
@@ -251,16 +261,4 @@ public class DiversClub implements SubjectInterface {
             return diverGroup;
         }
     }
-
-    @Override
-    public void notifyObservers() {
-        for (int i = 0; i < diveAgencies.size(); i++) {
-            ObserverInterface observer = (ObserverInterface) diveAgencies.get(i);
-            observer.update(diveDateTEMP, diversTEMP);
-        }
-
-        ObserverInterface observer = federation;
-        observer.update(diveDateTEMP, diversTEMP);
-    }
-
 }
