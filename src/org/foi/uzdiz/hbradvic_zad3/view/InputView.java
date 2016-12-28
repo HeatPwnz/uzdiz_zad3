@@ -5,10 +5,16 @@
  */
 package org.foi.uzdiz.hbradvic_zad3.view;
 
+import org.foi.uzdiz.hbradvic_zad3.view.observer.InputObserver;
+import org.foi.uzdiz.hbradvic_zad3.view.window.InputHandler;
+
 /**
  *
  * @author hEAT
  */
-public interface InputView {
+public interface InputView<T> extends InputObserver{
     
+    T getUserInput();
+    
+    void update(InputHandler handler);
 }

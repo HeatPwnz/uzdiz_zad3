@@ -17,6 +17,8 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.foi.uzdiz.hbradvic_zad3.helpers.CertificateHelper;
+import org.foi.uzdiz.hbradvic_zad3.view.observer.DisplayObserver;
+import org.foi.uzdiz.hbradvic_zad3.view.observer.InputObserver;
 
 /**
  *
@@ -26,30 +28,28 @@ public class DiversClub {
 
     private static DiversClub instance = null;
     private List<Diver> divers;
-    private List<DiveDate> diveDatesList;
     private List<DiveAgency> diveAgencies;
-    private List<Diver> diversTEMP;
-    private Map<String, String> diverSpec;
     private CertificateHelper certificateHelper;
     private static final String diversRegex = "^([a-zA-Z]{1,});(CMAS|SSI|NAUI|BSAC);((R[0-5])|(I[1-6]));((19|20)\\d{2}$)";
     private static final String specialtyRegex = "^([\\p{L}\\s]+{1,});([\\p{L}\\s]{1,})";
-    private static final String equipementRegex = "";
-    private static final String datesRegex = "^(\\d{4}.\\d{2}.\\d{2});(([01]?[0-9]|2[0-3]):[0-5][0-9]);(\\d{2});(\\d{1})";
+    
+    private final List<DisplayObserver> outputDisplayObservers;
+    private final List<InputObserver> inputDisplayObservers;
 
-    private DiversClub() {
+    public DiversClub() {
         divers = new ArrayList<>();
-        diveDatesList = new ArrayList<>();
         diveAgencies = new ArrayList<>();
-        diversTEMP = new ArrayList<>();
-        diverSpec = new HashMap<>();
         certificateHelper = new CertificateHelper();
+        outputDisplayObservers = new ArrayList<>();
+        inputDisplayObservers = new ArrayList<>();
     }
-
-    public static DiversClub getInstance() {
-        if (instance == null) {
-            instance = new DiversClub();
-        }
-        return instance;
+    
+    public void addOutputDisplayObserver(DisplayObserver observer){
+        outputDisplayObservers.add(observer);
+    }
+    
+    public void addInputDisplayObservers(InputObserver observer){
+        inputDisplayObservers.add(observer);
     }
 
     public List<Diver> getDivers() {
@@ -58,14 +58,6 @@ public class DiversClub {
 
     public void setDivers(List<Diver> divers) {
         this.divers = divers;
-    }
-
-    public List<DiveDate> getDiveDatesList() {
-        return diveDatesList;
-    }
-
-    public void setDiveDatesList(List<DiveDate> diveDatesList) {
-        this.diveDatesList = diveDatesList;
     }
 
     public List<Diver> fillDiversList(String diversDat, String specDat, List<DiveAgency> diveAgencies) {
@@ -86,7 +78,6 @@ public class DiversClub {
                     divers.add(diver);
                 }
             }
-            System.out.println("Divers added to the DiversClub list: " + divers.size());
 
             List<DiverSpecs> diverSpecs = new ArrayList<>();
             BufferedReader brSpec = new BufferedReader(new FileReader(new File(specDat)));
@@ -98,7 +89,6 @@ public class DiversClub {
                 }
             }
 
-            System.out.println(diverSpecs.size());
             List<String> specTEMP;
             for (Diver diver : divers) {
                 specTEMP = new ArrayList<>();
@@ -110,11 +100,6 @@ public class DiversClub {
                 diver.setSpecs(specTEMP);
             }
 
-            System.out.println("Spectialities added to each diver");
-
-            for (Diver diver : divers) {
-                System.out.println(diver.getName() + " / " + diver.getSpecs().size());
-            }
         } catch (FileNotFoundException ex) {
             throw new IllegalStateException("File that you requested doesn't exist.");
         } catch (IOException ex) {
@@ -128,7 +113,6 @@ public class DiversClub {
         List<Diver> filteredByDepth = new ArrayList<>();
         List<Diver> filteredListHelper = new ArrayList<>();
 
-        System.out.println("pocetak " + divers.size());
         //add divers that are able to dive to specified depth
         for (Diver diver : divers) {
             if ((certificateHelper.returnMaxDive(diver.getLevel()) + 10) >= depth) {
@@ -136,7 +120,6 @@ public class DiversClub {
             }
         }
 
-        System.out.println("nakon dubine " + filteredByDepth.size());
         //add divers that are able to dive in cold waters
         for (Diver diver : filteredByDepth) {
             if (diver.getSpecs().size() == 3) {
@@ -155,7 +138,6 @@ public class DiversClub {
             }
         }
 
-        System.out.println("nakon temp " + filteredListHelper.size());
         //add divers that are able to dive by night
         filteredByDepth.clear();
         for (Diver diver : filteredListHelper) {
@@ -175,7 +157,6 @@ public class DiversClub {
             }
         }
 
-        System.out.println("nakon nocne " + filteredByDepth.size());
         //count divers with photography spec
         int noPhotographDivers = 0;
         List<Diver> photographDivers = new ArrayList<>();
@@ -191,20 +172,17 @@ public class DiversClub {
         //filteredListHelper.clear();
         if (recording != 0) {
             if (noPhotographDivers >= recording) {
-                System.out.println("nocna ekipa " + photographDivers.size());
-                for (Diver diver : photographDivers) {
-                    System.out.println(diver.getName());
-                }
                 return photographDivers;
             } else {
-                System.out.println("There is too few or too many divers for Photography Diving Session");
+                ///System.out.println("There is too few or too many divers for Photography Diving Session");
                 //return null;
             }
         }
-        System.out.println("dnevna ekipa " + filteredByDepth.size());
-        for (Diver diver : filteredByDepth) {
-            System.out.println(diver.getName());
-        }
+
         return filteredByDepth;
+    }
+
+    public void doYourWork(List<Diver> filteredDivers) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

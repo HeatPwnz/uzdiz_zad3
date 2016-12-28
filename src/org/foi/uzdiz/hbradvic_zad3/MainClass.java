@@ -10,6 +10,9 @@ import java.util.List;
 import org.foi.uzdiz.hbradvic_zad3.model.DiveAgency;
 import org.foi.uzdiz.hbradvic_zad3.model.Diver;
 import org.foi.uzdiz.hbradvic_zad3.model.DiversClub;
+import org.foi.uzdiz.hbradvic_zad3.view.InputView;
+import org.foi.uzdiz.hbradvic_zad3.view.OutputView;
+import org.foi.uzdiz.hbradvic_zad3.view.window.ParentWindow;
 import org.foi.uzdiz.hbradvic_zad3.view.window.WindowProps;
 
 /**
@@ -27,7 +30,7 @@ public class MainClass {
             int cols = Integer.parseInt(args[1]);
             int rowsTank = Integer.parseInt(args[2]);
             WindowProps windowProps = new WindowProps(rows, cols, rowsTank, 1, 1);
-            
+
             String diversDat = args[3];
             String specDat = args[4];
             String equipDat = args[5];
@@ -39,54 +42,61 @@ public class MainClass {
 
             List<DiveAgency> diveAgencies = fillDivingAgencies();
 
-            List<Diver> divers = DiversClub.getInstance().fillDiversList(diversDat, specDat, diveAgencies);
-            List<Diver> filteredDivers = DiversClub.getInstance().filterDivers(divers, depth, temp, night, recording);
+            DiversClub diversClub = new DiversClub();
+            List<Diver> divers = diversClub.fillDiversList(diversDat, specDat, diveAgencies);
+            List<Diver> filteredDivers = diversClub.filterDivers(divers, depth, temp, night, recording);
+
+            ParentWindow window = new ParentWindow(windowProps);
+            window.display();
             
-            /* diveDatesList = DiversClub.getInstance().getDiveDatesList();
-                try {
-                    diversInDates = DiversClub.getInstance().sortDiversInDates(divers, diveDatesList, seed);
-                } catch (ParseException ex) {
-                    Logger.getLogger(MainClass.class.getName()).log(Level.SEVERE, null, ex);
-                }*/
-
-            //AlgorithmFactory algorithmFactory = new AlgorithmFactory();
-            //algorithmFactory.createAlgorithm(divers, "MaxDivesAlgorithm", diveAgencies);
-
-        }else{
+            InputView inputView = window.getInputView();
+            OutputView outputView = window.getOutputView();
+            
+            diversClub.addInputDisplayObservers(inputView);
+            diversClub.addOutputDisplayObserver(outputView);
+            diversClub.doYourWork(filteredDivers);
+            
+            
+            String data = inputView.getUserInput().toString();
+            outputView.output(data);
+            inputView.getUserInput().toString();
+            
+            
+        } else {
             System.out.println("Params you entered are wrong, fixerinho needed.");
         }
     }
 
-    private static boolean checkInputParams(String[] args){
-        if(args == null || args.length <= 0 || args.length >= 11){
+    private static boolean checkInputParams(String[] args) {
+        if (args == null || args.length <= 0 || args.length >= 11) {
             return false;
         }
         int noRows = Integer.parseInt(args[0]);
-        if(noRows<24 || noRows>80){
+        if (noRows < 24 || noRows > 80) {
             return false;
         }
         int noCols = Integer.parseInt(args[1]);
-        if(noCols<80 || noCols>160){
+        if (noCols < 80 || noCols > 160) {
             return false;
         }
         int noRowsTank = Integer.parseInt(args[2]);
-        if(noRowsTank<noRows || noRowsTank>400){
+        if (noRowsTank < noRows || noRowsTank > 400) {
             return false;
         }
         int depth = Integer.parseInt(args[6]);
-        if(depth<5 || depth>40){
+        if (depth < 5 || depth > 40) {
             return false;
         }
         int temp = Integer.parseInt(args[7]);
-        if(temp<0 || temp>35){
+        if (temp < 0 || temp > 35) {
             return false;
         }
         int night = Integer.parseInt(args[8]);
-        if(night!=1 && night!=0){
+        if (night != 1 && night != 0) {
             return false;
         }
         int recording = Integer.parseInt(args[9]);
-        if(recording<0 || recording>999){
+        if (recording < 0 || recording > 999) {
             return false;
         }
         return true;

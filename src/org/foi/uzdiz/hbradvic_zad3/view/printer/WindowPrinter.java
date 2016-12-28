@@ -16,21 +16,29 @@ import java.util.logging.Logger;
  */
 public class WindowPrinter {
     
-    private static final String LINE = "_";
+    private static final String VERTICAL_LINE = "|";
+    private static final String HORIZONTAL_LINE = "_";
     
-    public static void printWindowSplitter(int noRows, int noCols){
-        for(int i=0; i<=noCols; i++){
-            print(LINE, i, noRows-1);
-        }
-    }
     
-    public static void print(String text, int y, int noRows){
-        Printer.position(noRows, y);
+    public static void print(String text, int y, int noCols){
+        Printer.position(noCols, y);
         System.out.println(text);
     }
     
+       public static void printVerticalLine(int x, int startY, int endY) {
+        for (int i = startY; i <= endY; i++) {
+            print(VERTICAL_LINE, x, i);
+        }
+    }
+
+    public static void printHorizontalLine(int y, int startX, int endX) {
+        for (int i = startX; i <= endX; i++) {
+            print(HORIZONTAL_LINE, i, y);
+        }
+    }
+    
     public static String clearText(String text) {
-        return text.replaceAll("\\t", "    ");
+        return text.replaceAll("\t", "    ");
     }
     
     public static String[] formatText(String text, int maxWidth, int maxHeight) {

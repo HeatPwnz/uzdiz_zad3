@@ -3,16 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.foi.uzdiz.hbradvic_zad3.view;
-
-import org.foi.uzdiz.hbradvic_zad3.view.observer.DisplayObserver;
+package org.foi.uzdiz.hbradvic_zad3.view.observer;
 
 /**
  *
  * @author hEAT
  */
-public interface OutputView<T> extends DisplayObserver{
+public interface DataObserver<T> {
     
-   void output(T data);
+    void update(T t);
     
 }

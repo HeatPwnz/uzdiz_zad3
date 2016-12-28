@@ -13,38 +13,37 @@ import org.foi.uzdiz.hbradvic_zad3.view.printer.WindowPrinter;
  *
  * @author Hrvoje
  */
-public abstract class SubWindow extends Window{
-    
+public abstract class SubWindow extends Window {
+
     private final int x;
     private int y;
     private int noX;
     private int noY;
-    
-    private final Eraser eraser;
-    
+
+    protected final Eraser eraser;
+
     public SubWindow(WindowProps props, Eraser eraser) {
         super(props);
         this.x = props.getStartX();
         this.y = props.getStartY();
         this.noX = props.getNoRows();
         this.noY = props.getNoCols();
-        
         this.eraser = eraser;
     }
-    
-    protected void print(String cmd){
+
+    protected void print(String cmd) {
         String[] cmdArray = cmd.split("\\n");
-        for(String s : cmdArray){
+        for (String s : cmdArray) {
             printLine(s);
         }
     }
 
     protected void printLine(String string) {
-        String[] formatted = WindowPrinter.formatText(string,x,y);
+        String[] formatted = WindowPrinter.formatText(string, x, y);
         for (String s : formatted) {
             try {
                 if ((y - noY) >= noX) {
-                clear();
+                    clear();
                 }
                 Thread.sleep(30);
             } catch (InterruptedException ex) {
@@ -54,17 +53,18 @@ public abstract class SubWindow extends Window{
             y++;
         }
     }
-    
-    protected void clear(){
-        int startX = x;
-        int endX = startX + noX;
-        int startY = y;
-        int endY = startY + noY;
+
+    protected void clear() {
+        int startX = props.getStartX();
+        int endX = startX + props.getNoCols();
+        int startY = props.getStartY();
+        int endY = props.getNoRows() + startY;
         eraser.erase(startX, endX, startY, endY);
-        
-        this.y = 1;
+        resetY();
     }
-    
-    
-    
+
+    protected void resetY() {
+        this.y = props.getStartY();
+    }
+
 }

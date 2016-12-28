@@ -13,7 +13,7 @@ import java.util.List;
  */
 public abstract class Window {
     
-    private WindowProps props;
+    protected WindowProps props;
 
     public Window(WindowProps props) {
         this.props = props;
