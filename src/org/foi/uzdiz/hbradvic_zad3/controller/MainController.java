@@ -19,6 +19,10 @@ public class MainController {
     private DiversClub diversClub;
     private InputView inputView;
     private InputParser inputParser;
+
+    public MainController(InputParser inputParser) {
+        this.inputParser = inputParser;
+    }
     
     public void doSomething(List<Diver> divers){
         

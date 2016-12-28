@@ -11,4 +11,14 @@ package org.foi.uzdiz.hbradvic_zad3.controller;
  */
 public class InputParser {
     
+    private String[] params;
+
+    public void setValue(String value) {
+        if (value == null) {
+            value = "";
+        }
+        value = value.trim().toLowerCase();
+        this.params = value.split(" ");
+    }
+    
 }
