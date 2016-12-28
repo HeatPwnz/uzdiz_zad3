@@ -11,7 +11,7 @@ package org.foi.uzdiz.hbradvic_zad3.view.printer;
  */
 public class Printer {
     
-    private static final String ANSI_ESC = "\033[";
+    private static final String ANSI_ESC = "\\033[";
 
     public static void position(int x, int y) {
         System.out.print(ANSI_ESC + y + ";" + x + "f");
@@ -22,10 +22,10 @@ public class Printer {
     }
     
     public static void restorePosition() {
-        System.out.print("\0338");
+        System.out.print("\\0338");
     }
 
     public static void savePosition() {
-        System.out.print("\0337");
+        System.out.print("\\0337");
     }
 }

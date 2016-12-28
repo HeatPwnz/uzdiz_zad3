@@ -26,7 +26,7 @@ public class MainClass {
             int rows = Integer.parseInt(args[0]);
             int cols = Integer.parseInt(args[1]);
             int rowsTank = Integer.parseInt(args[2]);
-            WindowProps windowProps = new WindowProps(rows, cols, rowsTank);
+            WindowProps windowProps = new WindowProps(rows, cols, rowsTank, 1, 1);
             
             String diversDat = args[3];
             String specDat = args[4];

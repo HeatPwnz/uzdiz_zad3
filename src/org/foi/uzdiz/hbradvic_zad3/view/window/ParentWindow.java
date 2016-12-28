@@ -8,6 +8,7 @@ package org.foi.uzdiz.hbradvic_zad3.view.window;
 import java.util.List;
 import org.foi.uzdiz.hbradvic_zad3.view.InputView;
 import org.foi.uzdiz.hbradvic_zad3.view.OutputView;
+import org.foi.uzdiz.hbradvic_zad3.view.observer.EraserObserver;
 import org.foi.uzdiz.hbradvic_zad3.view.printer.Printer;
 
 /**
@@ -17,9 +18,13 @@ import org.foi.uzdiz.hbradvic_zad3.view.printer.Printer;
 public class ParentWindow extends Window{
     
     private List<Window> subWindows;
+    private WindowFactory factory;
+    private EraserObserver observer;
     
     public ParentWindow(WindowProps props) {
         super(props);
+        this.factory = new WindowFactory();
+        this.subWindows = factory.returnWindows(props, observer);
     }
 
     @Override
