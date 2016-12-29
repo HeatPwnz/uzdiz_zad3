@@ -7,6 +7,7 @@ package org.foi.uzdiz.hbradvic_zad3;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.foi.uzdiz.hbradvic_zad3.controller.MainController;
 import org.foi.uzdiz.hbradvic_zad3.model.pojo.DiveAgency;
 import org.foi.uzdiz.hbradvic_zad3.model.pojo.Diver;
 import org.foi.uzdiz.hbradvic_zad3.model.DiversClub;
@@ -56,10 +57,14 @@ public class MainClass {
             diversClub.addOutputDisplayObserver(outputView);
             diversClub.doYourWork(filteredDivers);
             
+            MainController mainController = new MainController();
+            mainController.setDiversClub(diversClub);
+            mainController.setInputView(inputView);
+            mainController.doSomething();
             
-            String data = inputView.getUserInput().toString();
+            /*String data = inputView.getUserInput().toString();
             outputView.output(data);
-            inputView.getUserInput().toString();
+            inputView.getUserInput().toString();*/
             
             
         } else {

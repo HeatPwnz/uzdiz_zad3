@@ -71,12 +71,12 @@ public class ParentWindow extends Window {
         WindowPrinter.printVerticalLine(x2, y1+1, props.getNoRows()-1);
         WindowPrinter.printHorizontalLine(y1, x1, props.getNoCols());
         WindowPrinter.printHorizontalLine(y2, x1, props.getNoCols());
-        
+        /*
         try {
             Thread.sleep(10000);
         } catch (InterruptedException ex) {
             Logger.getLogger(ParentWindow.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        }*/
 
     }
 

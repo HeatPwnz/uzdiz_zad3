@@ -14,7 +14,7 @@ import java.util.Map;
  */
 public class CommandHandler {
     
-    private Map<String, Command> cmdList = new HashMap<>();
+    private final Map<String, Command> cmdList = new HashMap<>();
     
     public void add(String key, Command value){
         cmdList.put(key, value);
@@ -28,5 +28,4 @@ public class CommandHandler {
         Object result = cmdList.get(key).executeCommand();
         return result;
     }
-    
 }

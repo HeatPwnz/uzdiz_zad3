@@ -6,6 +6,9 @@
 package org.foi.uzdiz.hbradvic_zad3.controller;
 
 import java.util.List;
+import org.foi.uzdiz.hbradvic_zad3.controller.commands.DisplayDivers;
+import org.foi.uzdiz.hbradvic_zad3.controller.commands.ExitProgram;
+import org.foi.uzdiz.hbradvic_zad3.controller.commands.ReturnStateFromMemento;
 import org.foi.uzdiz.hbradvic_zad3.model.pojo.Diver;
 import org.foi.uzdiz.hbradvic_zad3.model.DiversClub;
 import org.foi.uzdiz.hbradvic_zad3.view.InputView;
@@ -18,15 +21,15 @@ public class MainController {
     
     private DiversClub diversClub;
     private InputView inputView;
-    private CommandHandler commandHandler;
-    private InputParser inputParser;
+    private final CommandHandler commandHandler;
+    private final InputParser inputParser;
 
-    public MainController(InputParser inputParser) {
-        this.inputParser = inputParser;
+    public MainController() {
+        this.inputParser = new InputParser();
         this.commandHandler = new CommandHandler();
     }
     
-    public void doSomething(List<Diver> divers){
+    public void doSomething(){
         
         commandHandler.add("P", new DisplayDivers(diversClub));
         commandHandler.add("V", new ReturnStateFromMemento(diversClub));
@@ -48,6 +51,10 @@ public class MainController {
 
     public void setDiversClub(DiversClub diversClub) {
         this.diversClub = diversClub;
+    }
+
+    public void setInputView(InputView inputView) {
+        this.inputView = inputView;
     }
     
 }

@@ -33,12 +33,14 @@ public class DiversClub implements ControllerInterface{
     private CertificateHelper certificateHelper;
     private static final String diversRegex = "^([a-zA-Z]{1,});(CMAS|SSI|NAUI|BSAC);((R[0-5])|(I[1-6]));((19|20)\\d{2}$)";
     private static final String specialtyRegex = "^([\\p{L}\\s]+{1,});([\\p{L}\\s]{1,})";
+    private List<Diver> filteredCrew;
     
     private final List<DisplayObserver> outputDisplayObservers;
     private final List<InputObserver> inputDisplayObservers;
 
     public DiversClub() {
         divers = new ArrayList<>();
+        filteredCrew = new ArrayList<>();
         diveAgencies = new ArrayList<>();
         certificateHelper = new CertificateHelper();
         outputDisplayObservers = new ArrayList<>();
@@ -52,7 +54,19 @@ public class DiversClub implements ControllerInterface{
     public void addInputDisplayObservers(InputObserver observer){
         inputDisplayObservers.add(observer);
     }
-
+    
+    public void notifyOutpuDisplayObservers(Object object) {
+        for (DisplayObserver observer : outputDisplayObservers) {
+            observer.update(object);
+        }
+    }
+    /*
+    public void notifyInputDisplayObservers(Object object) {
+        for (InputObserver observer : inputDisplayObservers) {
+            observer.update(t);
+        }
+    }*/
+    
     public List<Diver> getDivers() {
         return divers;
     }
@@ -173,6 +187,7 @@ public class DiversClub implements ControllerInterface{
         //filteredListHelper.clear();
         if (recording != 0) {
             if (noPhotographDivers >= recording) {
+                this.filteredCrew = photographDivers;
                 return photographDivers;
             } else {
                 ///System.out.println("There is too few or too many divers for Photography Diving Session");
@@ -180,16 +195,22 @@ public class DiversClub implements ControllerInterface{
             }
         }
 
+        this.filteredCrew = filteredByDepth;
         return filteredByDepth;
     }
 
     public void doYourWork(List<Diver> filteredDivers) {
         System.out.println("hello world");
     }
+    
 
     @Override
     public Object DisplayDivers() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        notifyOutpuDisplayObservers("Time to show you the world... jk look at deez divers");
+        for(Diver diver : filteredCrew){
+            System.out.print(" - " + diver.getName());
+        }
+        return null;
     }
 
     @Override
@@ -199,6 +220,9 @@ public class DiversClub implements ControllerInterface{
 
     @Override
     public Object ExitProgram() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        notifyOutpuDisplayObservers("Now exiting program...");
+        System.out.println("byee");
+        System.exit(0);
+        return null;
     }
 }
