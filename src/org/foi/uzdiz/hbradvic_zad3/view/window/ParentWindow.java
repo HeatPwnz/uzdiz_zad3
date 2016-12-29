@@ -31,7 +31,7 @@ public class ParentWindow extends Window {
             showBorders();
         });
         this.subWindows = factory.returnWindows(props, observer);
-        showBorders();
+        //showBorders();
     }
 
     @Override

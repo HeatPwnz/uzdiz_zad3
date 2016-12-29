@@ -16,5 +16,5 @@ public interface InputView<T> extends InputObserver{
     
     T getUserInput();
     
-    void update(InputHandler handler);
+    //void update(InputHandler handler);
 }

@@ -6,7 +6,7 @@
 package org.foi.uzdiz.hbradvic_zad3.controller;
 
 import java.util.List;
-import org.foi.uzdiz.hbradvic_zad3.model.Diver;
+import org.foi.uzdiz.hbradvic_zad3.model.pojo.Diver;
 import org.foi.uzdiz.hbradvic_zad3.model.DiversClub;
 import org.foi.uzdiz.hbradvic_zad3.view.InputView;
 
@@ -18,19 +18,36 @@ public class MainController {
     
     private DiversClub diversClub;
     private InputView inputView;
+    private CommandHandler commandHandler;
     private InputParser inputParser;
 
     public MainController(InputParser inputParser) {
         this.inputParser = inputParser;
+        this.commandHandler = new CommandHandler();
     }
     
     public void doSomething(List<Diver> divers){
         
+        commandHandler.add("P", new DisplayDivers(diversClub));
+        commandHandler.add("V", new ReturnStateFromMemento(diversClub));
+        commandHandler.add("Q", new ExitProgram(diversClub));
+        //commandHandler.add("\\w", new AddEquipementToDiver(diversClub));
+        
         while(true){
             String input = (String) inputView.getUserInput();
-            
+            inputParser.setValue(input);
+            if(inputParser.checkKey()){
+                execute(input);
+            }
         }
-        
+    }
+    
+    public void execute(String key){
+        commandHandler.doIt(key);
+    }
+
+    public void setDiversClub(DiversClub diversClub) {
+        this.diversClub = diversClub;
     }
     
 }

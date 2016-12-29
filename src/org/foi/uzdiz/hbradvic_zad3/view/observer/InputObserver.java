@@ -5,10 +5,12 @@
  */
 package org.foi.uzdiz.hbradvic_zad3.view.observer;
 
+import org.foi.uzdiz.hbradvic_zad3.view.window.InputHandler;
+
 /**
  *
  * @author hEAT
  */
-public interface InputObserver extends DataObserver<Object>{
+public interface InputObserver extends DataObserver<InputHandler>{
     
 }

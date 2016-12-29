@@ -47,4 +47,9 @@ public class InputWindow extends SubWindow implements InputView<String>, OutputO
         inputHandler.updatePosition();
     }
 
+  /*  @Override
+    public void update(Object t) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }*/
+
 }

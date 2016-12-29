@@ -17,8 +17,12 @@ public class InputParser {
         if (value == null) {
             value = "";
         }
-        value = value.trim().toLowerCase();
+        value = value.trim().toUpperCase();
         this.params = value.split(" ");
+    }
+    
+    public boolean checkKey(){
+        return params[0].equals("P") || params[0].equals("V") || params[0].equals("N") || params[0].equals("Q");
     }
     
 }

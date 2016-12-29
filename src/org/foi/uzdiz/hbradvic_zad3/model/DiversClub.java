@@ -5,6 +5,9 @@
  */
 package org.foi.uzdiz.hbradvic_zad3.model;
 
+import org.foi.uzdiz.hbradvic_zad3.model.pojo.DiveAgency;
+import org.foi.uzdiz.hbradvic_zad3.model.pojo.Diver;
+import org.foi.uzdiz.hbradvic_zad3.model.pojo.DiverSpecs;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -12,10 +15,9 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.foi.uzdiz.hbradvic_zad3.controller.ControllerInterface;
 import org.foi.uzdiz.hbradvic_zad3.helpers.CertificateHelper;
 import org.foi.uzdiz.hbradvic_zad3.view.observer.DisplayObserver;
 import org.foi.uzdiz.hbradvic_zad3.view.observer.InputObserver;
@@ -24,9 +26,8 @@ import org.foi.uzdiz.hbradvic_zad3.view.observer.InputObserver;
  *
  * @author hEAT
  */
-public class DiversClub {
+public class DiversClub implements ControllerInterface{
 
-    private static DiversClub instance = null;
     private List<Diver> divers;
     private List<DiveAgency> diveAgencies;
     private CertificateHelper certificateHelper;
@@ -183,6 +184,21 @@ public class DiversClub {
     }
 
     public void doYourWork(List<Diver> filteredDivers) {
+        System.out.println("hello world");
+    }
+
+    @Override
+    public Object DisplayDivers() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public Object ReturnStateFromMemento() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public Object ExitProgram() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

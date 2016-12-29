@@ -10,9 +10,9 @@ import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
-import org.foi.uzdiz.hbradvic_zad3.model.DiveAgency;
-import org.foi.uzdiz.hbradvic_zad3.model.DiveDate;
-import org.foi.uzdiz.hbradvic_zad3.model.Diver;
+import org.foi.uzdiz.hbradvic_zad3.model.pojo.DiveAgency;
+import org.foi.uzdiz.hbradvic_zad3.model.pojo.DiveDate;
+import org.foi.uzdiz.hbradvic_zad3.model.pojo.Diver;
 
 /**
  *

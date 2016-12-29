@@ -7,8 +7,8 @@ package org.foi.uzdiz.hbradvic_zad3;
 
 import java.util.ArrayList;
 import java.util.List;
-import org.foi.uzdiz.hbradvic_zad3.model.DiveAgency;
-import org.foi.uzdiz.hbradvic_zad3.model.Diver;
+import org.foi.uzdiz.hbradvic_zad3.model.pojo.DiveAgency;
+import org.foi.uzdiz.hbradvic_zad3.model.pojo.Diver;
 import org.foi.uzdiz.hbradvic_zad3.model.DiversClub;
 import org.foi.uzdiz.hbradvic_zad3.view.InputView;
 import org.foi.uzdiz.hbradvic_zad3.view.OutputView;
