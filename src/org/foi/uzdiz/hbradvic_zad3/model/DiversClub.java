@@ -19,6 +19,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.foi.uzdiz.hbradvic_zad3.controller.ControllerInterface;
 import org.foi.uzdiz.hbradvic_zad3.helpers.CertificateHelper;
+import org.foi.uzdiz.hbradvic_zad3.model.pojo.DiveEquipment;
 import org.foi.uzdiz.hbradvic_zad3.view.observer.DisplayObserver;
 import org.foi.uzdiz.hbradvic_zad3.view.observer.InputObserver;
 
@@ -34,17 +35,31 @@ public class DiversClub implements ControllerInterface{
     private static final String diversRegex = "^([a-zA-Z]{1,});(CMAS|SSI|NAUI|BSAC);((R[0-5])|(I[1-6]));((19|20)\\d{2}$)";
     private static final String specialtyRegex = "^([\\p{L}\\s]+{1,});([\\p{L}\\s]{1,})";
     private List<Diver> filteredCrew;
+    private final String diversDat;
+    private final String specDat;
+    private final String equipDat;
+    private final int depth;
+    private final int temp;
+    private final int night;
+    private final int recording;
     
     private final List<DisplayObserver> outputDisplayObservers;
     private final List<InputObserver> inputDisplayObservers;
 
-    public DiversClub() {
-        divers = new ArrayList<>();
-        filteredCrew = new ArrayList<>();
-        diveAgencies = new ArrayList<>();
-        certificateHelper = new CertificateHelper();
-        outputDisplayObservers = new ArrayList<>();
-        inputDisplayObservers = new ArrayList<>();
+    public DiversClub(String diversDat, String specDat, String equipDat, List<DiveAgency> diveAgencies, int depth, int temp, int night, int recording) {
+        this.diversDat = diversDat;
+        this.specDat = specDat;
+        this.equipDat = equipDat;
+        this.divers = new ArrayList<>();
+        this.filteredCrew = new ArrayList<>();
+        this.diveAgencies = new ArrayList<>();
+        this.certificateHelper = new CertificateHelper();
+        this.outputDisplayObservers = new ArrayList<>();
+        this.inputDisplayObservers = new ArrayList<>();
+        this.depth = depth;
+        this.temp = temp;
+        this.night = night;
+        this.recording = recording;
     }
     
     public void addOutputDisplayObserver(DisplayObserver observer){
@@ -75,8 +90,7 @@ public class DiversClub implements ControllerInterface{
         this.divers = divers;
     }
 
-    public List<Diver> fillDiversList(String diversDat, String specDat, List<DiveAgency> diveAgencies) {
-        this.diveAgencies = diveAgencies;
+    public List<Diver> fillDiversList() {
         try {
             BufferedReader br = new BufferedReader(new FileReader(new File(diversDat)));
             String line;
@@ -124,7 +138,7 @@ public class DiversClub implements ControllerInterface{
         return divers;
     }
 
-    public List<Diver> filterDivers(List<Diver> divers, int depth, int temp, int night, int recording) {
+    public List<Diver> filterDivers() {
         List<Diver> filteredByDepth = new ArrayList<>();
         List<Diver> filteredListHelper = new ArrayList<>();
 
@@ -198,9 +212,42 @@ public class DiversClub implements ControllerInterface{
         this.filteredCrew = filteredByDepth;
         return filteredByDepth;
     }
+    
+    public void createEquipementStructure(){
+        try {
+            List<DiveEquipment> equipementList = new ArrayList<>();
+            BufferedReader br = new BufferedReader(new FileReader(new File(equipDat)));
+            String line;
+            while ((line = br.readLine()) != null) {
+                if (line.matches(diversRegex)) {
+                    String[] info = line.split(";");
+                    if(info.length==2){
+                        DiveEquipment diveEquipment = new DiveEquipment(Double.parseDouble(info[0]), info[1]);
+                        equipementList.add(diveEquipment);
+                    }else{
+                        List<String> equip = new ArrayList<>();
+                        equip.add(info[3]);
+                        equip.add(info[4]);
+                        equip.add(info[5]);
+                        equip.add(info[6]);
+                        equip.add(info[7]);
+                        DiveEquipment diveEquipment = new DiveEquipment(Double.parseDouble(info[0]), info[1]);
+                        diveEquipment.setDepth(Integer.parseInt(info[2]));
+                        diveEquipment.setRequirements(equip);
+                    }
+                }
+            }
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(DiversClub.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(DiversClub.class.getName()).log(Level.SEVERE, null, ex);
+        }
+            
+    }
 
-    public void doYourWork(List<Diver> filteredDivers) {
-        System.out.println("hello world");
+    public void doYourWork() {
+        fillDiversList();
+        filterDivers();
     }
     
 
@@ -210,6 +257,7 @@ public class DiversClub implements ControllerInterface{
         for(Diver diver : filteredCrew){
             System.out.print(" - " + diver.getName());
         }
+        System.exit(0);
         return null;
     }
 

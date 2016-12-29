@@ -43,9 +43,7 @@ public class MainClass {
 
             List<DiveAgency> diveAgencies = fillDivingAgencies();
 
-            DiversClub diversClub = new DiversClub();
-            List<Diver> divers = diversClub.fillDiversList(diversDat, specDat, diveAgencies);
-            List<Diver> filteredDivers = diversClub.filterDivers(divers, depth, temp, night, recording);
+            DiversClub diversClub = new DiversClub(diversDat, specDat, equipDat, diveAgencies, depth, temp, night, recording);
 
             ParentWindow window = new ParentWindow(windowProps);
             window.display();
@@ -55,7 +53,7 @@ public class MainClass {
             
             diversClub.addInputDisplayObservers(inputView);
             diversClub.addOutputDisplayObserver(outputView);
-            diversClub.doYourWork(filteredDivers);
+            diversClub.doYourWork();
             
             MainController mainController = new MainController();
             mainController.setDiversClub(diversClub);
