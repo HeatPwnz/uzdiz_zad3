@@ -13,22 +13,22 @@ import java.util.List;
  */
 public class DiveEquipment {
     
-    private double level;
+    private String level;
     private String Name;
     private int depth;
     private List<String> requirements;
     private List<DiveEquipment> subEquipement;
 
-    public DiveEquipment(double level, String Name) {
+    public DiveEquipment(String level, String Name) {
         this.level = level;
         this.Name = Name;
     }
 
-    public double getLevel() {
+    public String getLevel() {
         return level;
     }
 
-    public void setLevel(double level) {
+    public void setLevel(String level) {
         this.level = level;
     }
 

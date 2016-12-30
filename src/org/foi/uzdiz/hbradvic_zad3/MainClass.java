@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 import org.foi.uzdiz.hbradvic_zad3.controller.MainController;
 import org.foi.uzdiz.hbradvic_zad3.model.pojo.DiveAgency;
-import org.foi.uzdiz.hbradvic_zad3.model.pojo.Diver;
 import org.foi.uzdiz.hbradvic_zad3.model.DiversClub;
 import org.foi.uzdiz.hbradvic_zad3.view.InputView;
 import org.foi.uzdiz.hbradvic_zad3.view.OutputView;
@@ -60,18 +59,13 @@ public class MainClass {
             mainController.setInputView(inputView);
             mainController.doSomething();
             
-            /*String data = inputView.getUserInput().toString();
-            outputView.output(data);
-            inputView.getUserInput().toString();*/
-            
-            
         } else {
             System.out.println("Params you entered are wrong, fixerinho needed.");
         }
     }
 
     private static boolean checkInputParams(String[] args) {
-        if (args == null || args.length <= 0 || args.length >= 11) {
+        if (args == null || args.length != 10) {
             return false;
         }
         int noRows = Integer.parseInt(args[0]);

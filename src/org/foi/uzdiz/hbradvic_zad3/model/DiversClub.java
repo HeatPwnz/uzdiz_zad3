@@ -19,6 +19,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.foi.uzdiz.hbradvic_zad3.controller.ControllerInterface;
 import org.foi.uzdiz.hbradvic_zad3.helpers.CertificateHelper;
+import org.foi.uzdiz.hbradvic_zad3.model.memento.Caretaker;
+import org.foi.uzdiz.hbradvic_zad3.model.memento.Originator;
 import org.foi.uzdiz.hbradvic_zad3.model.pojo.DiveEquipment;
 import org.foi.uzdiz.hbradvic_zad3.view.observer.DisplayObserver;
 import org.foi.uzdiz.hbradvic_zad3.view.observer.InputObserver;
@@ -42,6 +44,8 @@ public class DiversClub implements ControllerInterface{
     private final int temp;
     private final int night;
     private final int recording;
+    protected Originator originator;
+    protected Caretaker caretaker;
     
     private final List<DisplayObserver> outputDisplayObservers;
     private final List<InputObserver> inputDisplayObservers;
@@ -60,6 +64,8 @@ public class DiversClub implements ControllerInterface{
         this.temp = temp;
         this.night = night;
         this.recording = recording;
+        this.originator = new Originator();
+        this.caretaker = new Caretaker();
     }
     
     public void addOutputDisplayObserver(DisplayObserver observer){
@@ -134,7 +140,8 @@ public class DiversClub implements ControllerInterface{
         } catch (IOException ex) {
             Logger.getLogger(DiversClub.class.getName()).log(Level.SEVERE, null, ex);
         }
-
+        originator.setDivers(divers);
+        caretaker.add(originator.saveStateToMemento());
         return divers;
     }
 
@@ -202,13 +209,17 @@ public class DiversClub implements ControllerInterface{
         if (recording != 0) {
             if (noPhotographDivers >= recording) {
                 this.filteredCrew = photographDivers;
+                originator.setDivers(filteredCrew);
+                caretaker.add(originator.saveStateToMemento());
                 return photographDivers;
             } else {
                 ///System.out.println("There is too few or too many divers for Photography Diving Session");
                 //return null;
             }
         }
-
+        
+        originator.setDivers(filteredByDepth);
+        caretaker.add(originator.saveStateToMemento());
         this.filteredCrew = filteredByDepth;
         return filteredByDepth;
     }
@@ -222,7 +233,7 @@ public class DiversClub implements ControllerInterface{
                 if (line.matches(diversRegex)) {
                     String[] info = line.split(";");
                     if(info.length==2){
-                        DiveEquipment diveEquipment = new DiveEquipment(Double.parseDouble(info[0]), info[1]);
+                        DiveEquipment diveEquipment = new DiveEquipment(info[0], info[1]);
                         equipementList.add(diveEquipment);
                     }else{
                         List<String> equip = new ArrayList<>();
@@ -231,7 +242,7 @@ public class DiversClub implements ControllerInterface{
                         equip.add(info[5]);
                         equip.add(info[6]);
                         equip.add(info[7]);
-                        DiveEquipment diveEquipment = new DiveEquipment(Double.parseDouble(info[0]), info[1]);
+                        DiveEquipment diveEquipment = new DiveEquipment(info[0], info[1]);
                         diveEquipment.setDepth(Integer.parseInt(info[2]));
                         diveEquipment.setRequirements(equip);
                     }
@@ -248,12 +259,14 @@ public class DiversClub implements ControllerInterface{
     public void doYourWork() {
         fillDiversList();
         filterDivers();
+        createEquipementStructure();
     }
     
 
     @Override
     public Object DisplayDivers() {
         notifyOutpuDisplayObservers("Time to show you the world... jk look at deez divers");
+        System.out.println("Filetered divers...");
         for(Diver diver : filteredCrew){
             System.out.print(" - " + diver.getName());
         }
@@ -263,13 +276,20 @@ public class DiversClub implements ControllerInterface{
 
     @Override
     public Object ReturnStateFromMemento() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        notifyOutpuDisplayObservers("Retriving first state from Memento...");
+        originator.getStateFromMemento(caretaker.get(0));
+        System.out.println("Getting first model state from Memento...");
+        for(Diver diver : originator.getDivers()){
+            System.out.print(" + " + diver.getName());
+        }
+        System.exit(0);
+        return null;
     }
 
     @Override
     public Object ExitProgram() {
-        notifyOutpuDisplayObservers("Now exiting program...");
-        System.out.println("byee");
+        notifyOutpuDisplayObservers("ALT+F4...");
+        System.out.println("ALT+F4...");
         System.exit(0);
         return null;
     }

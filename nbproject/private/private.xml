@@ -3,21 +3,17 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/hEAT/Documents/NetBeansProjects/hbradvic_zadaca_3/src/org/foi/uzdiz/hbradvic_zad3/view/window/ParentWindow.java</file>
-            <file>file:/C:/Users/hEAT/Documents/NetBeansProjects/hbradvic_zadaca_3/src/org/foi/uzdiz/hbradvic_zad3/view/window/WindowFactory.java</file>
-            <file>file:/C:/Users/hEAT/Documents/NetBeansProjects/hbradvic_zadaca_3/src/org/foi/uzdiz/hbradvic_zad3/view/OutputView.java</file>
-            <file>file:/C:/Users/hEAT/Documents/NetBeansProjects/hbradvic_zadaca_3/src/org/foi/uzdiz/hbradvic_zad3/view/window/OutputWindow.java</file>
-            <file>file:/C:/Users/hEAT/Documents/NetBeansProjects/hbradvic_zadaca_3/src/org/foi/uzdiz/hbradvic_zad3/view/InputView.java</file>
-            <file>file:/C:/Users/hEAT/Documents/NetBeansProjects/hbradvic_zadaca_3/src/org/foi/uzdiz/hbradvic_zad3/controller/InputParser.java</file>
-            <file>file:/C:/Users/hEAT/Documents/NetBeansProjects/hbradvic_zadaca_3/src/org/foi/uzdiz/hbradvic_zad3/controller/MainController.java</file>
-            <file>file:/C:/Users/hEAT/Documents/NetBeansProjects/hbradvic_zadaca_3/src/org/foi/uzdiz/hbradvic_zad3/MainClass.java</file>
-            <file>file:/C:/Users/hEAT/Documents/NetBeansProjects/hbradvic_zadaca_3/src/org/foi/uzdiz/hbradvic_zad3/model/DiversClub.java</file>
-            <file>file:/C:/Users/hEAT/Documents/NetBeansProjects/hbradvic_zadaca_3/src/org/foi/uzdiz/hbradvic_zad3/view/window/InputHandler.java</file>
-            <file>file:/C:/Users/hEAT/Documents/NetBeansProjects/hbradvic_zadaca_3/src/org/foi/uzdiz/hbradvic_zad3/view/printer/Printer.java</file>
-            <file>file:/C:/Users/hEAT/Documents/NetBeansProjects/hbradvic_zadaca_3/src/org/foi/uzdiz/hbradvic_zad3/view/printer/WindowPrinter.java</file>
-            <file>file:/C:/Users/hEAT/Documents/NetBeansProjects/hbradvic_zadaca_3/src/org/foi/uzdiz/hbradvic_zad3/view/observer/InputObserver.java</file>
-            <file>file:/C:/Users/hEAT/Documents/NetBeansProjects/hbradvic_zadaca_3/src/org/foi/uzdiz/hbradvic_zad3/view/window/WindowProps.java</file>
-            <file>file:/C:/Users/hEAT/Documents/NetBeansProjects/hbradvic_zadaca_3/src/org/foi/uzdiz/hbradvic_zad3/view/window/InputWindow.java</file>
+            <file>file:/C:/Users/Hrvoje/Documents/NetBeansProjects/hbradvic_zadaca_3/src/org/foi/uzdiz/hbradvic_zad3/controller/CommandHandler.java</file>
+            <file>file:/C:/Users/Hrvoje/Documents/NetBeansProjects/hbradvic_zadaca_3/src/org/foi/uzdiz/hbradvic_zad3/controller/ControllerInterface.java</file>
+            <file>file:/C:/Users/Hrvoje/Documents/NetBeansProjects/hbradvic_zadaca_3/src/org/foi/uzdiz/hbradvic_zad3/controller/commands/ReturnStateFromMemento.java</file>
+            <file>file:/C:/Users/Hrvoje/Documents/NetBeansProjects/hbradvic_zadaca_3/src/org/foi/uzdiz/hbradvic_zad3/controller/Command.java</file>
+            <file>file:/C:/Users/Hrvoje/Documents/NetBeansProjects/hbradvic_zadaca_3/src/org/foi/uzdiz/hbradvic_zad3/model/DiversClub.java</file>
+            <file>file:/C:/Users/Hrvoje/Documents/NetBeansProjects/hbradvic_zadaca_3/src/org/foi/uzdiz/hbradvic_zad3/view/window/ParentWindow.java</file>
+            <file>file:/C:/Users/Hrvoje/Documents/NetBeansProjects/hbradvic_zadaca_3/src/org/foi/uzdiz/hbradvic_zad3/controller/commands/DisplayDivers.java</file>
+            <file>file:/C:/Users/Hrvoje/Documents/NetBeansProjects/hbradvic_zadaca_3/src/org/foi/uzdiz/hbradvic_zad3/MainClass.java</file>
+            <file>file:/C:/Users/Hrvoje/Documents/NetBeansProjects/hbradvic_zadaca_3/src/org/foi/uzdiz/hbradvic_zad3/view/window/WindowFactory.java</file>
+            <file>file:/C:/Users/Hrvoje/Documents/NetBeansProjects/hbradvic_zadaca_3/src/org/foi/uzdiz/hbradvic_zad3/controller/MainController.java</file>
+            <file>file:/C:/Users/Hrvoje/Documents/NetBeansProjects/hbradvic_zadaca_3/src/org/foi/uzdiz/hbradvic_zad3/controller/InputParser.java</file>
         </group>
     </open-files>
 </project-private>
